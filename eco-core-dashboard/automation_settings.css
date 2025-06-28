@@ -1,0 +1,69 @@
+/* Automation & Settings Page Styles */
+
+.settings-grid-layout {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--space-6);
+}
+
+.full-width-card {
+    grid-column: 1 / -1;
+}
+
+.automation-rules-list {
+    margin-top: var(--space-4);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+}
+
+.rule-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--current-secondary-color);
+    padding: var(--space-3);
+    border-radius: var(--radius-base);
+}
+
+.rule-summary h4 {
+    margin: 0 0 var(--space-1) 0;
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-semibold);
+}
+
+.rule-summary p {
+    margin: 0;
+    font-size: var(--font-size-sm);
+    color: var(--current-text-secondary-color);
+}
+
+.rule-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+}
+
+.preferences-content, .user-management-content, .device-management-content, .diagnostics-content, .backup-content, .reset-content, .support-content {
+    margin-top: var(--space-4);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+}
+
+.user-item, .device-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--current-secondary-color);
+    padding: var(--space-2);
+    border-radius: var(--radius-base);
+    font-size: var(--font-size-sm);
+}
+
+.form-actions {
+    margin-top: var(--space-4);
+    display: flex;
+    gap: var(--space-2);
+    justify-content: flex-end;
+}

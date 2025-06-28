@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Automation Hub - ECO-CORE</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="automations.css">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+</head>
+<body>
+    <!-- Header Section -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-section">
+                    <img src="EcoGHouse_Logo.png" alt="ECO-CORE Logo" class="company-logo">
+                    <span class="tagline">Automation Hub</span>
+                </div>
+                <div class="status-section">
+                    <a href="index.html" class="btn btn--secondary btn--sm">
+                        <i data-lucide="layout-dashboard"></i>
+                        <span>Back to Dashboard</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Existing Automations -->
+            <section class="automations-list-section">
+                <h2 class="section-title">Your Automations</h2>
+                <div class="automations-grid" id="automationsGrid">
+                    <!-- Placeholder for an existing automation -->
+                    <div class="card automation-card">
+                        <div class="card__body">
+                            <div class="automation-card-header">
+                                <h3 class="automation-title">Nightly Power Save</h3>
+                                <div class="toggle-switch">
+                                    <input type="checkbox" id="automationToggle1" checked>
+                                    <span class="toggle-slider"></span>
+                                </div>
+                            </div>
+                            <p class="automation-summary">
+                                <strong>WHEN</strong> Time is 11:00 PM, <strong>IF</strong> Battery Level > 40%, <strong>THEN</strong> Turn Heater Off.
+                            </p>
+                            <div class="automation-actions">
+                                <button class="btn btn--sm btn--outline"><i data-lucide="edit"></i>Edit</button>
+                                <button class="btn btn--sm btn--outline btn--danger"><i data-lucide="trash-2"></i>Delete</button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Add more automation cards here -->
+                </div>
+            </section>
+
+            <!-- Create New Automation -->
+            <section class="create-automation-section">
+                <h2 class="section-title">Create a New Automation</h2>
+                <div class="card">
+                    <form class="card__body" id="automationForm">
+                        <!-- Automation Name -->
+                        <div class="form-group">
+                            <label for="automationName" class="form-label">Automation Name</label>
+                            <input type="text" id="automationName" class="form-control" placeholder="e.g., Morning Water Heater">
+                        </div>
+
+                        <!-- Trigger -->
+                        <div class="rule-section">
+                            <h3 class="rule-title">WHEN <span class="rule-subtitle">(The Trigger)</span></h3>
+                            <div class="form-group">
+                                <select id="triggerType" class="form-control">
+                                    <option value="time">At a specific time</option>
+                                    <option value="sunrise">At sunrise</option>
+                                    <option value="sunset">At sunset</option>
+                                    <option value="value_change">A system value changes</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Conditions -->
+                        <div class="rule-section">
+                            <h3 class="rule-title">IF <span class="rule-subtitle">(The Conditions)</span></h3>
+                            <div id="conditionsContainer">
+                                <!-- Condition Row -->
+                                <div class="condition-row">
+                                    <select class="form-control">
+                                        <option>Battery Level</option>
+                                        <option>Solar Input</option>
+                                        <option>Wind Input</option>
+                                        <option>Tank Level</option>
+                                        <option>Compost Temperature</option>
+                                    </select>
+                                    <select class="form-control">
+                                        <option>is greater than</option>
+                                        <option>is less than</option>
+                                        <option>is equal to</option>
+                                    </select>
+                                    <input type="text" class="form-control" placeholder="Value">
+                                    <button type="button" class="btn btn--sm btn--icon remove-btn"><i data-lucide="x"></i></button>
+                                </div>
+                            </div>
+                            <button type="button" id="addCondition" class="btn btn--sm btn--secondary"><i data-lucide="plus"></i>Add Condition</button>
+                        </div>
+
+                        <!-- Actions -->
+                        <div class="rule-section">
+                            <h3 class="rule-title">THEN <span class="rule-subtitle">(The Actions)</span></h3>
+                            <div id="actionsContainer">
+                                <!-- Action Row -->
+                                <div class="action-row">
+                                    <select class="form-control">
+                                        <option>Turn Heater</option>
+                                        <option>Enable Rainwater Collection</option>
+                                        <option>Send Notification</option>
+                                    </select>
+                                    <select class="form-control">
+                                        <option>On</option>
+                                        <option>Off</option>
+                                    </select>
+                                    <button type="button" class="btn btn--sm btn--icon remove-btn"><i data-lucide="x"></i></button>
+                                </div>
+                            </div>
+                            <button type="button" id="addAction" class="btn btn--sm btn--secondary"><i data-lucide="plus"></i>Add Action</button>
+                        </div>
+
+                        <!-- Save Button -->
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn--primary btn--lg">Save Automation</button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+        </div>
+    </main>
+    <script>
+        lucide.createIcons();
+    </script>
+    <script src="automations.js"></script>
+</body>
+</html>

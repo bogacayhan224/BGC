@@ -1,0 +1,103 @@
+/* Reports & Analytics Page Styles */
+
+.reports-grid-layout {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--space-6);
+}
+
+.full-width-card {
+    grid-column: 1 / -1;
+}
+
+.overview-metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: var(--space-5);
+    margin-top: var(--space-6);
+    text-align: center;
+}
+
+.metric-item {
+    background-color: var(--current-secondary-color);
+    padding: var(--space-4);
+    border-radius: var(--radius-lg);
+}
+
+.metric-value {
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--current-primary-color);
+    display: block;
+    margin-bottom: var(--space-2);
+}
+
+.metric-label {
+    font-size: var(--font-size-xs);
+    color: var(--current-text-secondary-color);
+}
+
+.chart-container-large {
+    height: 300px;
+    margin-top: var(--space-6);
+}
+
+.impact-metrics, .compliance-content, .log-content, .maintenance-content, .custom-report-content, .share-content, .benchmark-content {
+    margin-top: var(--space-4);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.info-row .label {
+    font-size: var(--font-size-xs);
+    color: var(--current-text-secondary-color);
+}
+
+.info-row .value {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+}
+
+.log-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2);
+    background-color: var(--current-secondary-color);
+    border-radius: var(--radius-base);
+}
+
+.log-item.warning {
+    background-color: var(--color-warning-light);
+    color: var(--current-warning-color);
+}
+
+.log-item.info {
+    background-color: var(--color-info-light);
+    color: var(--current-info-color);
+}
+
+.log-item i {
+    width: 16px;
+    height: 16px;
+}
+
+.log-timestamp {
+    font-size: var(--font-size-xs);
+    color: var(--current-text-secondary-color);
+    margin-left: auto;
+}
+
+.form-actions {
+    margin-top: var(--space-4);
+    display: flex;
+    gap: var(--space-2);
+    justify-content: flex-end;
+}

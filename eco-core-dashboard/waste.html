@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Waste Management - ECO-CORE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="waste.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+</head>
+<body class="flex bg-neutral-50 text-gray-800 font-sans">
+  <!-- Main wrapper -->
+  <div class="flex flex-col flex-grow min-h-screen">
+    <!-- Header -->
+    <header class="sticky top-0 bg-white z-30 h-16 flex items-center justify-between px-6 shadow">
+      <!-- Left section -->
+      <div class="flex items-center gap-4">
+        <a href="index.html">
+          <img src="EcoGHouse_Logo.png" alt="Eco-G Logo" class="w-10 h-10 object-contain" />
+        </a>
+        <h1 class="text-lg font-semibold tracking-tight">Waste Management Hub</h1>
+      </div>
+
+      <!-- NEW: Hub Menu (Top Navigation) -->
+      <nav class="hub-menu">
+        <ul>
+          <li><a href="index.html" class="hub-menu-link">Dashboard</a></li>
+          <li><a href="energy.html" class="hub-menu-link">Energy Management</a></li>
+          <li><a href="water.html" class="hub-menu-link">Water Management</a></li>
+          <li><a href="waste.html" class="hub-menu-link active">Waste Management</a></li>
+          <li><a href="predictive_maintenance.html" class="hub-menu-link">Predictive Maintenance</a></li>
+          <li><a href="automation_settings.html" class="hub-menu-link">Automation & Settings</a></li>
+          <li><a href="reports_analytics.html" class="hub-menu-link">Reports & Analytics</a></li>
+          <li><a href="user_profile_support.html" class="hub-menu-link">User Profile & Support</a></li>
+        </ul>
+      </nav>
+
+      <!-- Right section -->
+      <div class="flex items-center gap-4">
+        <a href="index.html" class="bg-gray-100 text-sm text-gray-700 px-3 py-1 rounded hover:bg-gray-200 transition">Back to Dashboard</a>
+        <button class="bg-gray-100 text-gray-800 px-3 py-1 rounded text-sm">Logout</button>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="p-6 w-full max-w-screen-xl mx-auto pt-16">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- 1. Waste Stream Overview -->
+        <div class="card full-width-card">
+            <div class="card__body">
+                <div class="card-header">
+                    <i data-lucide="trash-2" class="card-icon"></i>
+                    <h3>Waste Stream Overview</h3>
+                    <div class="card-controls">
+                        <button class="btn btn--sm btn--secondary" id="refreshDataBtn"><i data-lucide="refresh-cw"></i>Refresh</button>
+                    </div>
+                </div>
+                <div class="waste-stream-overview">
+                    <div class="stream-card organic active">
+                        <div class="stream-header">
+                            <i data-lucide="leaf"></i>
+                            <span>Organic</span>
+                        </div>
+                        <div class="fill-level">75%</div>
+                        <div class="status-text">Processing</div>
+                    </div>
+                    <div class="stream-card recyclable">
+                        <div class="stream-header">
+                            <i data-lucide="recycle"></i>
+                            <span>Recyclable</span>
+                        </div>
+                        <div class="fill-level">40%</div>
+                        <div class="status-text">Ready</div>
+                    </div>
+                    <div class="stream-card residual">
+                        <div class="stream-header">
+                            <i data-lucide="flame"></i>
+                            <span>Residual</span>
+                        </div>
+                        <div class="fill-level">20%</div>
+                        <div class="status-text">Standby</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. Organic Waste Processing -->
+        <div class="card">
+            <div class="card__body">
+                <div class="card-header">
+                    <i data-lucide="leaf" class="card-icon"></i>
+                    <h3>Organic Processing</h3>
+                </div>
+                <div class="processing-details">
+                    <div class="chart-container-small">
+                        <canvas id="compostChart"></canvas>
+                    </div>
+                    <div class="info-row">
+                        <span class="label">Temperature:</span>
+                        <span class="value">62°C</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="label">Humidity:</span>
+                        <span class="value">55%</span>
+                    </div>
+                    <div class="form-actions">
+                        <button class="btn btn--sm btn--secondary">Pause Processing</button>
+                        <button class="btn btn--sm btn--outline">Log Feedstock</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. Recycling Sorting Status -->
+        <div class="card">
+            <div class="card__body">
+                <div class="card-header">
+                    <i data-lucide="recycle" class="card-icon"></i>
+                    <h3>Recycling Status</h3>
+                </div>
+                <div class="recycling-details">
+                    <p class="text-secondary">Bin levels and sorting accuracy.</p>
+                    <div class="bin-status-grid">
+                        <div class="bin-item"><span>Paper:</span><span>60%</span></div>
+                        <div class="bin-item"><span>Plastic:</span><span>30%</span></div>
+                        <div class="bin-item"><span>Glass:</span><span>50%</span></div>
+                        <div class="bin-item"><span>Metal:</span><span>25%</span></div>
+                    </div>
+                    <div class="form-actions">
+                        <button class="btn btn--sm btn--outline">Sorting Guide</button>
+                        <button class="btn btn--sm btn--secondary">Schedule Collection</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. Thermal Valorization -->
+        <div class="card">
+            <div class="card__body">
+                <div class="card-header">
+                    <i data-lucide="flame" class="card-icon"></i>
+                    <h3>Thermal Valorization</h3>
+                </div>
+                <div class="valorization-details">
+                    <div class="info-row">
+                        <span class="label">Status:</span>
+                        <span class="status status--info">Inactive</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="label">Energy Recovered:</span>
+                        <span class="value">12.5 kWh</span>
+                    </div>
+                    <div class="form-actions">
+                        <button class="btn btn--sm btn--secondary">Activate</button>
+                        <button class="btn btn--sm btn--outline">Energy Dashboard</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 5. Waste Collection Alerts -->
+        <div class="card">
+            <div class="card__body">
+                <div class="card-header">
+                    <i data-lucide="bell" class="card-icon"></i>
+                    <h3>Collection Alerts</h3>
+                </div>
+                <div class="alert-list">
+                    <div class="alert-item warning">
+                        <i data-lucide="alert-triangle"></i>
+                        <span>Organic bin is 75% full.</span>
+                        <button class="btn btn--sm btn--secondary">Request Collection</button>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button class="btn btn--sm btn--outline">Configure Alerts</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 6. Maintenance Schedule -->
+        <div class="card">
+            <div class="card__body">
+                <div class="card-header">
+                    <i data-lucide="calendar-check" class="card-icon"></i>
+                    <h3>Maintenance</h3>
+                </div>
+                <div class="maintenance-list">
+                    <p class="text-secondary">Next task: Turn compost in 2 days.</p>
+                </div>
+                <div class="form-actions">
+                    <button class="btn btn--sm btn--outline">View Schedule</button>
+                    <button class="btn btn--sm btn--secondary">Log Task</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 7. Resource Recovery -->
+        <div class="card">
+            <div class="card__body">
+                <div class="card-header">
+                    <i data-lucide="award" class="card-icon"></i>
+                    <h3>Resource Recovery</h3>
+                </div>
+                <div class="recovery-details">
+                    <p class="text-secondary">Summary of your environmental impact.</p>
+                    <div class="info-row">
+                        <span class="label">Compost Produced:</span>
+                        <span class="value">25 kg</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="label">Energy Recovered:</span>
+                        <span class="value">12.5 kWh</span>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button class="btn btn--sm btn--outline">Export Data</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 8. User Tips & Education -->
+        <div class="card full-width-card">
+            <div class="card__body">
+                <div class="card-header">
+                    <i data-lucide="lightbulb" class="card-icon"></i>
+                    <h3>Tips & Education</h3>
+                </div>
+                <div class="tips-content">
+                    <p class="text-secondary">Learn how to reduce waste and improve your sustainability practices.</p>
+                    <div class="form-actions">
+                        <button class="btn btn--secondary">Browse Tips</button>
+                        <button class="btn btn--outline">Quick Guide</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+    </main>
+  </div>
+    <script>
+        lucide.createIcons();
+    </script>
+    <script src="waste.js"></script>
+</body>
+</html>

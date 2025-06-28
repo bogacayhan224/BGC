@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ECO-CORE Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+</head>
+<body class="flex bg-neutral-50 text-gray-800 font-sans">
+  <!-- Main wrapper -->
+  <div class="flex flex-col flex-grow min-h-screen"> <!-- Removed ml-64 -->
+    <!-- Header -->
+    <header class="sticky top-0 bg-white z-30 h-16 flex items-center justify-between px-6 shadow">
+      <!-- Left section -->
+      <div class="flex items-center gap-4">
+        <a href="index.html">
+          <img src="EcoGHouse_Logo.png" alt="Eco-G Logo" class="w-10 h-10 object-contain" />
+        </a>
+        <h1 class="text-lg font-semibold tracking-tight">Smart Off-Grid Living</h1>
+      </div>
+
+      <!-- NEW: Hub Menu (Top Navigation) -->
+      <nav class="hub-menu">
+        <ul>
+          <li><a href="index.html" class="hub-menu-link active">Dashboard</a></li>
+          <li><a href="energy.html" class="hub-menu-link">Energy Management</a></li>
+          <li><a href="water.html" class="hub-menu-link">Water Management</a></li>
+          <li><a href="waste.html" class="hub-menu-link">Waste Management</a></li>
+          <li><a href="predictive_maintenance.html" class="hub-menu-link">Predictive Maintenance</a></li>
+          <li><a href="automation_settings.html" class="hub-menu-link">Automation & Settings</a></li>
+          <li><a href="reports_analytics.html" class="hub-menu-link">Reports & Analytics</a></li>
+          <li><a href="user_profile_support.html" class="hub-menu-link">User Profile & Support</a></li>
+        </ul>
+      </nav>
+
+      <!-- Right section -->
+      <div class="flex items-center gap-4">
+        <button class="bg-red-100 text-red-600 px-3 py-1 rounded text-sm">❗ Critical Alerts</button>
+        <button class="bg-gray-100 text-gray-800 px-3 py-1 rounded text-sm" id="logoutBtn">Logout</button>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="p-6 w-full max-w-screen-xl mx-auto">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Energy Section -->
+        <div class="card energy-card">
+            <div class="card__body">
+                <div class="card-header">
+                    <i data-lucide="battery" class="card-icon"></i>
+                    <h3>Battery Level</h3>
+                </div>
+                <div class="chart-container">
+                    <canvas id="batteryChart"></canvas>
+                </div>
+                <div class="metric-value">
+                    <span class="value" id="batteryValue">84%</span>
+                    <span class="label">Charged</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="card energy-card">
+            <div class="card__body">
+                <div class="card-header">
+                    <i data-lucide="sun" class="card-icon"></i>
+                    <h3>Solar Input</h3>
+                </div>
+                <div class="chart-container">
+                    <canvas id="solarChart"></canvas>
+                </div>
+                <div class="metric-value">
+                    <span class="value" id="solarValue">850W</span>
+                    <span class="label">Current Generation</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="card energy-card">
+            <div class="card__body">
+                <div class="card-header">
+                    <i data-lucide="wind" class="card-icon"></i>
+                    <h3>Wind Input</h3>
+                </div>
+                <div class="chart-container">
+                    <canvas id="windChart"></canvas>
+                </div>
+                <div class="metric-value">
+                    <span class="value" id="windValue">310W</span>
+                    <span class="label">Current Generation</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Water & Waste Section -->
+        <div class="card water-card">
+            <div class="card__body">
+                <div class="card-header">
+                    <i data-lucide="droplets" class="card-icon"></i>
+                    <h3>Water System</h3>
+                </div>
+                <div class="water-metrics">
+                    <div class="tank-level">
+                        <div class="tank-container">
+                            <div class="tank-fill" id="tankFill"></div>
+                            <span class="tank-percentage" id="tankPercentage">60%</span>
+                        </div>
+                        <span class="tank-label">Tank Level</span>
+                    </div>
+                    <div class="water-info">
+                        <div class="info-row">
+                            <span class="label">Filter Status:</span>
+                            <span class="status status--success" id="filterStatus">OK</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="label">Daily Usage:</span>
+                            <span class="value" id="dailyUsage">145L</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card waste-card">
+            <div class="card__body">
+                <div class="card-header">
+                    <i data-lucide="recycle" class="card-icon"></i>
+                    <h3>Waste Management</h3>
+                </div>
+                <div class="waste-metrics">
+                    <div class="temperature-gauge">
+                        <div class="thermometer">
+                            <div class="temp-fill" id="tempFill"></div>
+                        </div>
+                        <div class="temp-info">
+                            <span class="temp-value" id="tempValue">38°C</span>
+                            <span class="temp-label">Compost Temp</span>
+                        </div>
+                    </div>
+                    <div class="waste-info">
+                        <div class="info-row">
+                            <span class="label">Status:</span>
+                            <span class="status status--success" id="compostStatus">Active Composting</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="label">Progress:</span>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="compostProgress"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Alerts Section -->
+        <div class="card alerts-card">
+            <div class="card__body">
+                <div class="card-header">
+                    <i data-lucide="alert-triangle" class="card-icon"></i>
+                    <h3>Alert Center</h3>
+                    <span class="alert-count" id="alertCount">2 Active</span>
+                </div>
+                <div class="alerts-list" id="alertsList">
+                    <!-- Alerts will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Controls & Eco Score Section -->
+        <div class="card controls-card">
+            <div class="card__body">
+                <div class="card-header">
+                    <i data-lucide="settings" class="card-icon"></i>
+                    <h3>Quick Controls</h3>
+                </div>
+                <div class="controls-grid">
+                    <div class="control-item">
+                        <label class="inline-flex items-center cursor-pointer">
+                          <input type="checkbox" class="sr-only peer" id="heaterToggle"/>
+                          <div class="w-11 h-6 bg-gray-200 rounded-full peer peer-checked:bg-green-500 relative transition-all">
+                            <div class="absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition-transform peer-checked:translate-x-5"></div>
+                          </div>
+                          <span class="ml-2 text-sm">Heater</span>
+                        </label>
+                    </div>
+                    <div class="control-item">
+                        <label class="inline-flex items-center cursor-pointer">
+                          <input type="checkbox" class="sr-only peer" id="rainwaterToggle"/>
+                          <div class="w-11 h-6 bg-gray-200 rounded-full peer peer-checked:bg-green-500 relative transition-all">
+                            <div class="absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition-transform peer-checked:translate-x-5"></div>
+                          </div>
+                          <span class="ml-2 text-sm">Rainwater Roof</span>
+                        </label>
+                    </div>
+                    <div class="control-item">
+                        <button class="btn btn--secondary" id="greywaterBtn">
+                            <i data-lucide="droplets"></i>
+                            Force Greywater Flush
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card eco-score-card">
+            <div class="card__body">
+                <div class="card-header">
+                    <i data-lucide="leaf" class="card-icon"></i>
+                    <h3>Eco Score</h3>
+                    <span class="eco-rating" id="ecoRating">Excellent</span>
+                </div>
+                <div class="eco-metrics">
+                    <div class="eco-score-chart-container">
+                        <canvas id="ecoScoreRingChart"></canvas>
+                        <div class="eco-score-value">85</div>
+                    </div>
+                    <div class="eco-stat">
+                        <span class="eco-value" id="energySaved">42.5 kWh</span>
+                        <span class="eco-label">Weekly Energy Saved</span>
+                    </div>
+                    <div class="eco-stat">
+                        <span class="eco-value" id="carbonOffset">28.3 kg CO₂</span>
+                        <span class="eco-label">Carbon Offset</span>
+                    </div>
+                    <div class="achievements" id="achievements">
+                        <!-- Achievement badges will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+    <script src="app.js"></script>
+    <script>
+        // Theme Toggle Logic
+        const themeToggle = document.getElementById('themeToggle');
+        if (themeToggle) {
+            themeToggle.addEventListener('click', () => {
+                document.body.dataset.theme = document.body.dataset.theme === 'dark' ? 'light' : 'dark';
+                const icon = themeToggle.querySelector('i');
+                if (document.body.dataset.theme === 'dark') {
+                    icon.setAttribute('data-lucide', 'sun');
+                } else {
+                    icon.setAttribute('data-lucide', 'moon');
+                }
+                lucide.createIcons();
+            });
+        }
+
+        // Ripple Effect for Buttons
+        document.querySelectorAll('.btn').forEach(button => {
+            button.addEventListener('click', function(e) {
+                const x = e.clientX - e.target.getBoundingClientRect().left;
+                const y = e.clientY - e.target.getBoundingClientRect().top;
+
+                const ripple = document.createElement('span');
+                ripple.classList.add('ripple');
+                ripple.style.left = `${x}px`;
+                ripple.style.top = `${y}px`;
+                this.appendChild(ripple);
+
+                ripple.addEventListener('animationend', () => {
+                    this.removeChild(ripple);
+                });
+            });
+        });
+
+        // Global error handler for debugging
+        window.onerror = function(message, source, lineno, colno, error) {
+            console.log("Global Error:", message, "at", source + ":" + lineno);
+        };
+        
+        lucide.createIcons();
+    </script>
+</body>
+</html>

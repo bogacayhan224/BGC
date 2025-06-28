@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Water Management - ECO-CORE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="water.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+</head>
+<body class="flex bg-neutral-50 text-gray-800 font-sans">
+  <!-- Main wrapper -->
+  <div class="flex flex-col flex-grow min-h-screen">
+    <!-- Header -->
+    <header class="sticky top-0 bg-white z-30 h-16 flex items-center justify-between px-6 shadow">
+      <!-- Left section -->
+      <div class="flex items-center gap-4">
+        <a href="index.html">
+          <img src="EcoGHouse_Logo.png" alt="Eco-G Logo" class="w-10 h-10 object-contain" />
+        </a>
+        <h1 class="text-lg font-semibold tracking-tight">Water Management Hub</h1>
+      </div>
+
+      <!-- NEW: Hub Menu (Top Navigation) -->
+      <nav class="hub-menu">
+        <ul>
+          <li><a href="index.html" class="hub-menu-link">Dashboard</a></li>
+          <li><a href="energy.html" class="hub-menu-link">Energy Management</a></li>
+          <li><a href="water.html" class="hub-menu-link active">Water Management</a></li>
+          <li><a href="waste.html" class="hub-menu-link">Waste Management</a></li>
+          <li><a href="predictive_maintenance.html" class="hub-menu-link">Predictive Maintenance</a></li>
+          <li><a href="automation_settings.html" class="hub-menu-link">Automation & Settings</a></li>
+          <li><a href="reports_analytics.html" class="hub-menu-link">Reports & Analytics</a></li>
+          <li><a href="user_profile_support.html" class="hub-menu-link">User Profile & Support</a></li>
+        </ul>
+      </nav>
+
+      <!-- Right section -->
+      <div class="flex items-center gap-4">
+        <a href="index.html" class="bg-gray-100 text-sm text-gray-700 px-3 py-1 rounded hover:bg-gray-200 transition">Back to Dashboard</a>
+        <button class="bg-gray-100 text-gray-800 px-3 py-1 rounded text-sm">Logout</button>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="p-6 w-full max-w-screen-xl mx-auto pt-16">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- 1. Water Source Overview -->
+        <div class="card full-width-card">
+            <div class="card__body">
+                <div class="card-header">
+                    <i data-lucide="droplets" class="card-icon"></i>
+                    <h3>Water Source Overview</h3>
+                    <div class="card-controls">
+                        <select class="form-control form-control--sm" id="timeRangeSelector">
+                            <option>Today</option>
+                            <option>This Week</option>
+                            <option>This Month</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="chart-container-large">
+                    <canvas id="waterSourceChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. Rainwater Harvesting -->
+        <div class="card">
+            <div class="card__body">
+                <div class="card-header">
+                    <i data-lucide="cloud-rain" class="card-icon"></i>
+                    <h3>Rainwater Harvesting</h3>
+                </div>
+                <div class="system-details">
+                    <div class="info-row">
+                        <span class="label">Collection:</span>
+                        <span class="status status--success">Active</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="label">Tank Level:</span>
+                        <span class="value">85%</span>
+                    </div>
+                    <div class="form-actions">
+                        <button class="btn btn--sm btn--outline">Filtration Report</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. Atmospheric Water Harvesting -->
+        <div class="card">
+            <div class="card__body">
+                <div class="card-header">
+                    <i data-lucide="wind" class="card-icon"></i>
+                    <h3>Atmospheric Water</h3>
+                </div>
+                <div class="system-details">
+                    <div class="info-row">
+                        <span class="label">Production:</span>
+                        <span class="value">2.1 L/hr</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="label">System Health:</span>
+                        <span class="status status--success">Optimal</span>
+                    </div>
+                    <div class="form-actions">
+                        <button class="btn btn--sm btn--outline">Maintenance Alert</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. Water Filtration & Purification -->
+        <div class="card">
+            <div class="card__body">
+                <div class="card-header">
+                    <i data-lucide="shield-check" class="card-icon"></i>
+                    <h3>Filtration & Purification</h3>
+                </div>
+                <div class="system-details">
+                    <div class="filter-status-grid">
+                        <div class="filter-item"><span>Clay-UV:</span><span class="status status--success">OK</span></div>
+                        <div class="filter-item"><span>Carbon:</span><span class="status status--warning">Needs Change</span></div>
+                    </div>
+                    <div class="info-row">
+                        <span class="label">Water Quality:</span>
+                        <span class="value">99.8% Pure</span>
+                    </div>
+                    <div class="form-actions">
+                        <button class="btn btn--sm btn--secondary">Disable UV Stage</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 5. Water Usage & Allocation -->
+        <div class="card">
+            <div class="card__body">
+                <div class="card-header">
+                    <i data-lucide="pie-chart" class="card-icon"></i>
+                    <h3>Water Usage</h3>
+                </div>
+                <div class="chart-container-small">
+                    <canvas id="waterUsageChart"></canvas>
+                </div>
+                <div class="form-actions">
+                    <button class="btn btn--sm btn--outline">Allocation Settings</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 6. Greywater Recycling -->
+        <div class="card">
+            <div class="card__body">
+                <div class="card-header">
+                    <i data-lucide="recycle" class="card-icon"></i>
+                    <h3>Greywater Recycling</h3>
+                </div>
+                <div class="system-details">
+                    <div class="info-row">
+                        <span class="label">Status:</span>
+                        <span class="status status--success">Active</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="label">Quality:</span>
+                        <span class="value">Safe for Irrigation</span>
+                    </div>
+                    <div class="form-actions">
+                        <button class="btn btn--sm btn--outline">Treatment Report</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 7. Leak Detection -->
+        <div class="card">
+            <div class="card__body">
+                <div class="card-header">
+                    <i data-lucide="alert-triangle" class="card-icon"></i>
+                    <h3>Leak Detection</h3>
+                </div>
+                <div class="system-details">
+                    <div class="info-row">
+                        <span class="label">System Status:</span>
+                        <span class="status status--success">No Leaks Detected</span>
+                    </div>
+                    <div class="form-actions">
+                        <button class="btn btn--sm btn--secondary">Initiate Scan</button>
+                        <button class="btn btn--sm btn--outline">Settings</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 8. Maintenance Schedule -->
+        <div class="card">
+            <div class="card__body">
+                <div class="card-header">
+                    <i data-lucide="calendar-check" class="card-icon"></i>
+                    <h3>Maintenance</h3>
+                </div>
+                <div class="maintenance-list">
+                    <p class="text-secondary">Next task: Change carbon filter in 3 days.</p>
+                </div>
+                <div class="form-actions">
+                    <button class="btn btn--sm btn--outline">View Schedule</button>
+                    <button class="btn btn--sm btn--secondary">Log Task</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 9. Resource Recovery -->
+        <div class="card">
+            <div class="card__body">
+                <div class="card-header">
+                    <i data-lucide="award" class="card-icon"></i>
+                    <h3>Resource Recovery</h3>
+                </div>
+                <div class="recovery-details">
+                    <div class="info-row">
+                        <span class="label">Rainwater Collected:</span>
+                        <span class="value">1,200 L</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="label">Greywater Reused:</span>
+                        <span class="value">450 L</span>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button class="btn btn--sm btn--outline">Export Data</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 10. User Tips & Education -->
+        <div class="card full-width-card">
+            <div class="card__body">
+                <div class="card-header">
+                    <i data-lucide="lightbulb" class="card-icon"></i>
+                    <h3>Tips & Education</h3>
+                </div>
+                <div class="tips-content">
+                    <p class="text-secondary">Learn how to conserve water and maintain your systems.</p>
+                    <div class="form-actions">
+                        <button class="btn btn--secondary">Browse Tips</button>
+                        <button class="btn btn--outline">Quick Guide</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+    </main>
+  </div>
+    <script>
+        lucide.createIcons();
+    </script>
+    <script src="water.js"></script>
+</body>
+</html>

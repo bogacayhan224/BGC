@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Predictive Maintenance & Alerts - ECO-CORE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="predictive_maintenance.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+</head>
+<body class="flex bg-neutral-50 text-gray-800 font-sans">
+  <!-- Main wrapper -->
+  <div class="flex flex-col flex-grow min-h-screen">
+    <!-- Header -->
+    <header class="sticky top-0 bg-white z-30 h-16 flex items-center justify-between px-6 shadow">
+      <!-- Left section -->
+      <div class="flex items-center gap-4">
+        <a href="index.html">
+          <img src="EcoGHouse_Logo.png" alt="Eco-G Logo" class="w-10 h-10 object-contain" />
+        </a>
+        <h1 class="text-lg font-semibold tracking-tight">Predictive Maintenance & Alerts Hub</h1>
+      </div>
+
+      <!-- NEW: Hub Menu (Top Navigation) -->
+      <nav class="hub-menu">
+        <ul>
+          <li><a href="index.html" class="hub-menu-link">Dashboard</a></li>
+          <li><a href="energy.html" class="hub-menu-link">Energy Management</a></li>
+          <li><a href="water.html" class="hub-menu-link">Water Management</a></li>
+          <li><a href="waste.html" class="hub-menu-link">Waste Management</a></li>
+          <li><a href="predictive_maintenance.html" class="hub-menu-link active">Predictive Maintenance</a></li>
+          <li><a href="automation_settings.html" class="hub-menu-link">Automation & Settings</a></li>
+          <li><a href="reports_analytics.html" class="hub-menu-link">Reports & Analytics</a></li>
+          <li><a href="user_profile_support.html" class="hub-menu-link">User Profile & Support</a></li>
+        </ul>
+      </nav>
+
+      <!-- Right section -->
+      <div class="flex items-center gap-4">
+        <a href="index.html" class="bg-gray-100 text-sm text-gray-700 px-3 py-1 rounded hover:bg-gray-200 transition">Back to Dashboard</a>
+        <button class="bg-gray-100 text-gray-800 px-3 py-1 rounded text-sm">Logout</button>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="p-6 w-full max-w-screen-xl mx-auto pt-16">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- 1. Equipment Health Overview -->
+        <div class="card full-width-card">
+            <div class="card__body">
+                <div class="card-header">
+                    <i data-lucide="heart-pulse" class="card-icon"></i>
+                    <h3>Equipment Health Overview</h3>
+                    <div class="card-controls">
+                        <select class="form-control form-control--sm" id="componentSelector">
+                            <option>All Components</option>
+                            <option>Pumps</option>
+                            <option>Batteries</option>
+                            <option>Filters</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="health-overview-grid">
+                    <div class="health-item">
+                        <i data-lucide="battery-charging" class="health-icon status--success"></i>
+                        <span class="health-label">Main Battery</span>
+                        <span class="health-status status--success">Excellent</span>
+                    </div>
+                    <div class="health-item">
+                        <i data-lucide="droplets" class="health-icon status--warning"></i>
+                        <span class="health-label">Water Filter</span>
+                        <span class="health-status status--warning">Degraded</span>
+                    </div>
+                    <div class="health-item">
+                        <i data-lucide="wind" class="health-icon status--info"></i>
+                        <span class="health-label">Wind Turbine</span>
+                        <span class="health-status status--info">Good</span>
+                    </div>
+                    <div class="health-item">
+                        <i data-lucide="leaf" class="health-icon status--success"></i>
+                        <span class="health-label">Compost Digester</span>
+                        <span class="health-status status--success">Optimal</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. Fault Detection & Anomaly Alerts -->
+        <div class="card">
+            <div class="card__body">
+                <div class="card-header">
+                    <i data-lucide="alert-circle" class="card-icon"></i>
+                    <h3>Fault Detection & Anomalies</h3>
+                </div>
+                <div class="alert-list">
+                    <div class="alert-item critical">
+                        <i data-lucide="alert-triangle"></i>
+                        <div class="alert-content">
+                            <div class="alert-message">High vibration detected on Water Pump 1.</div>
+                            <div class="alert-timestamp">2024-06-27 14:30</div>
+                        </div>
+                        <button class="btn btn--sm btn--secondary">Acknowledge</button>
+                    </div>
+                    <div class="alert-item warning">
+                        <i data-lucide="alert-triangle"></i>
+                        <div class="alert-content">
+                            <div class="alert-message">Solar Inverter temperature spike.</div>
+                            <div class="alert-timestamp">2024-06-27 10:15</div>
+                        </div>
+                        <button class="btn btn--sm btn--secondary">Acknowledge</button>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button class="btn btn--sm btn--outline">Alert Settings</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. Predictive Failure Forecasting -->
+        <div class="card">
+            <div class="card__body">
+                <div class="card-header">
+                    <i data-lucide="trending-up" class="card-icon"></i>
+                    <h3>Predictive Forecasting</h3>
+                </div>
+                <div class="forecasting-details">
+                    <div class="info-row">
+                        <span class="label">Water Filter:</span>
+                        <span class="value status--warning">RUL: 30 days</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="label">Battery Bank:</span>
+                        <span class="value status--success">RUL: 5 years</span>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button class="btn btn--sm btn--outline">Forecast Report</button>
+                    <button class="btn btn--sm btn--secondary">Maintenance Recommendations</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. Maintenance Scheduling & Log -->
+        <div class="card">
+            <div class="card__body">
+                <div class="card-header">
+                    <i data-lucide="calendar-check" class="card-icon"></i>
+                    <h3>Maintenance Schedule & Log</h3>
+                </div>
+                <div class="maintenance-content">
+                    <p class="text-secondary">Upcoming: Water Filter Change (July 15)</p>
+                    <p class="text-secondary">Last: Battery Check (June 1)</p>
+                </div>
+                <div class="form-actions">
+                    <button class="btn btn--sm btn--secondary">Schedule New Task</button>
+                    <button class="btn btn--sm btn--outline">View Log</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 5. Diagnostics & Troubleshooting -->
+        <div class="card">
+            <div class="card__body">
+                <div class="card-header">
+                    <i data-lucide="wrench" class="card-icon"></i>
+                    <h3>Diagnostics & Troubleshooting</h3>
+                </div>
+                <div class="diagnostics-content">
+                    <p class="text-secondary">Run automated checks or find solutions.</p>
+                </div>
+                <div class="form-actions">
+                    <button class="btn btn--sm btn--secondary">Run Diagnostics</button>
+                    <button class="btn btn--sm btn--outline">Contact Support</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 6. Alerts & Notifications Center -->
+        <div class="card">
+            <div class="card__body">
+                <div class="card-header">
+                    <i data-lucide="bell" class="card-icon"></i>
+                    <h3>Alerts & Notifications</h3>
+                </div>
+                <div class="alert-list">
+                    <div class="alert-item info">
+                        <i data-lucide="info"></i>
+                        <div class="alert-content">
+                            <div class="alert-message">Compost temperature is low.</div>
+                            <div class="alert-timestamp">2024-06-26 08:00</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button class="btn btn--sm btn--outline">Filter Alerts</button>
+                    <button class="btn btn--sm btn--secondary">Notification Settings</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 7. Equipment Performance Analytics -->
+        <div class="card">
+            <div class="card__body">
+                <div class="card-header">
+                    <i data-lucide="activity" class="card-icon"></i>
+                    <h3>Performance Analytics</h3>
+                </div>
+                <div class="analytics-content">
+                    <p class="text-secondary">View historical performance and trends.</p>
+                </div>
+                <div class="form-actions">
+                    <button class="btn btn--sm btn--secondary">View Dashboard</button>
+                    <button class="btn btn--sm btn--outline">Export Data</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 8. Integration with Edge AI & Cloud Analytics -->
+        <div class="card">
+            <div class="card__body">
+                <div class="card-header">
+                    <i data-lucide="cloud" class="card-icon"></i>
+                    <h3>Edge AI & Cloud Analytics</h3>
+                </div>
+                <div class="integration-content">
+                    <p class="text-secondary">Leveraging advanced analytics for predictions.</p>
+                </div>
+                <div class="form-actions">
+                    <button class="btn btn--sm btn--secondary">Configure Integration</button>
+                </div>
+            </div>
+        </div>
+      </div>
+    </main>
+  </div>
+    <script>
+        lucide.createIcons();
+    </script>
+    <script src="predictive_maintenance.js"></script>
+</body>
+</html>

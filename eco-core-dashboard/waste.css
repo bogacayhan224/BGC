@@ -1,0 +1,126 @@
+/* Waste Management Page Styles */
+
+.waste-grid-layout {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--space-6);
+}
+
+.full-width-card {
+    grid-column: 1 / -1;
+}
+
+.waste-stream-overview {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-5);
+    margin-top: var(--space-6);
+}
+
+.stream-card {
+    border: 1px solid var(--current-card-border-color);
+    border-radius: var(--radius-lg);
+    padding: var(--space-4);
+    text-align: center;
+    cursor: pointer;
+    transition: all var(--animation-duration) var(--animation-easing);
+    background-color: var(--current-surface-color);
+    box-shadow: var(--shadow-md);
+}
+
+.stream-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-xl);
+}
+
+.stream-card.active {
+    border-width: 2px;
+    box-shadow: var(--shadow-lg);
+}
+
+.stream-card.organic.active { border-color: var(--current-primary-color); }
+.stream-card.recyclable.active { border-color: var(--current-info-color); }
+.stream-card.residual.active { border-color: var(--current-error-color); }
+
+.stream-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    font-weight: var(--font-weight-semibold);
+    margin-bottom: var(--space-3);
+    font-size: var(--font-size-base);
+    color: var(--current-text-color);
+}
+
+.stream-header i {
+    width: 20px;
+    height: 20px;
+}
+
+.fill-level {
+    font-size: var(--font-size-3xl);
+    font-weight: var(--font-weight-bold);
+    margin-bottom: var(--space-1);
+    color: var(--current-primary-color);
+}
+
+.status-text {
+    font-size: var(--font-size-sm);
+    color: var(--current-text-secondary-color);
+}
+
+.chart-container-small {
+    height: 150px;
+    margin-bottom: var(--space-4);
+}
+
+.processing-details, .recycling-details, .valorization-details, .alert-list, .maintenance-list, .recovery-details, .tips-content {
+    margin-top: var(--space-4);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+}
+
+.bin-status-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-2);
+}
+
+.bin-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--current-secondary-color);
+    padding: var(--space-2);
+    border-radius: var(--radius-base);
+    font-size: var(--font-size-sm);
+}
+
+.alert-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-3);
+    border-radius: var(--radius-base);
+    border-left: 4px solid;
+}
+
+.alert-item.critical {
+    background: var(--color-critical-light);
+    border-left-color: var(--current-error-color);
+}
+
+.alert-item.warning {
+    background: var(--color-warning-light);
+    border-left-color: var(--current-warning-color);
+}
+
+.form-actions {
+    margin-top: var(--space-4);
+    display: flex;
+    gap: var(--space-2);
+    justify-content: flex-end;
+}
+

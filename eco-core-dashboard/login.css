@@ -1,0 +1,79 @@
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #F0FDF4 0%, #ECFDF5 100%);
+}
+
+.login-box {
+    background: var(--color-surface);
+    padding: var(--space-32);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+
+.login-box .logo {
+    color: var(--color-eco-primary);
+    margin-bottom: var(--space-8);
+}
+
+.login-box .tagline {
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-24);
+}
+
+.form-group {
+    text-align: left;
+    margin-bottom: var(--space-16);
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: var(--space-8);
+    font-weight: var(--font-weight-medium);
+}
+
+.form-group input {
+    width: 100%;
+    padding: var(--space-10);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-base);
+}
+
+.error-message {
+    color: var(--color-critical);
+    margin-top: var(--space-16);
+    min-height: 20px;
+}
+
+.hidden {
+    display: none;
+}
+
+.switch-auth {
+    margin-top: var(--space-16);
+    font-size: var(--font-size-sm);
+}
+
+.switch-auth a {
+    color: var(--color-eco-primary);
+    text-decoration: underline;
+}
+
+.message-box {
+    margin-top: var(--space-16);
+    min-height: 20px;
+    font-weight: var(--font-weight-medium);
+}
+
+.message-box.success {
+    color: var(--color-eco-primary);
+}
+
+.message-box.error {
+    color: var(--color-critical);
+}

@@ -1,0 +1,51 @@
+/* Water Management Page Styles */
+
+.water-grid-layout {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--space-6);
+}
+
+.full-width-card {
+    grid-column: 1 / -1;
+}
+
+.chart-container-large {
+    height: 300px;
+    margin-top: var(--space-6);
+}
+
+.chart-container-small {
+    height: 180px;
+    margin-top: var(--space-4);
+    margin-bottom: var(--space-4);
+}
+
+.system-details, .maintenance-list, .recovery-details, .tips-content {
+    margin-top: var(--space-4);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+}
+
+.filter-status-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-2);
+}
+
+.filter-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-2);
+    background-color: var(--current-secondary-color);
+    border-radius: var(--radius-base);
+}
+
+.form-actions {
+    margin-top: var(--space-4);
+    display: flex;
+    gap: var(--space-2);
+    justify-content: flex-end;
+}

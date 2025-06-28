@@ -1,0 +1,159 @@
+/* Energy Management Page Styles */
+
+.energy-grid-layout {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: var(--space-6);
+}
+
+.full-width-card {
+    grid-column: 1 / -1;
+}
+
+.card-header .card-controls {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+}
+
+.btn-group .btn {
+    border-radius: 0;
+}
+
+.btn-group .btn:first-child {
+    border-top-left-radius: var(--radius-base);
+    border-bottom-left-radius: var(--radius-base);
+}
+
+.btn-group .btn:last-child {
+    border-top-right-radius: var(--radius-base);
+    border-bottom-right-radius: var(--radius-base);
+}
+
+.btn-group .btn.active {
+    background-color: var(--color-primary);
+    color: white;
+}
+
+.form-control--sm {
+    font-size: var(--font-size-sm);
+    padding: var(--space-2) var(--space-3);
+    max-width: 150px;
+}
+
+.chart-container-large {
+    height: 300px;
+    margin-top: var(--space-6);
+}
+
+.chart-container-medium {
+    height: 180px;
+    margin-top: var(--space-4);
+    margin-bottom: var(--space-4);
+}
+
+/* Battery Storage Card */
+.battery-storage-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-4);
+    margin-top: var(--space-4);
+}
+
+.battery-chart-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 150px; /* Fixed size for consistency */
+    height: 150px;
+}
+
+.battery-level-text {
+    position: absolute;
+    font-size: var(--font-size-3xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-primary);
+}
+
+.battery-details {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    width: 100%;
+    max-width: 280px;
+}
+
+.battery-health-status {
+    background-color: var(--current-secondary-color);
+    border-radius: var(--radius-base);
+    padding: var(--space-3);
+    text-align: center;
+}
+
+.health-label {
+    font-size: var(--font-size-xs);
+    color: var(--current-text-secondary-color);
+    margin-bottom: var(--space-2);
+    display: block;
+}
+
+.health-bar {
+    width: 100%;
+    height: 6px;
+    background-color: rgba(0,0,0,0.1);
+    border-radius: var(--radius-full);
+    overflow: hidden;
+    margin-bottom: var(--space-4);
+}
+
+.health-bar-fill {
+    height: 100%;
+    background-color: var(--current-primary-color);
+    border-radius: var(--radius-full);
+}
+
+.health-percentage {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+}
+
+.battery-info {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+}
+
+.form-actions {
+    margin-top: var(--space-16);
+    display: flex;
+    gap: var(--space-8);
+    justify-content: flex-end;
+}
+
+/* Load Balancing & Other Cards */
+.load-balancing-content, .generator-content, .grid-interaction-content {
+    margin-top: var(--space-4);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+}
+
+/* Appliance Scheduling */
+.appliance-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    margin-top: var(--space-4);
+}
+
+.appliance-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-2);
+    background-color: var(--current-secondary-color);
+    border-radius: var(--radius-base);
+}

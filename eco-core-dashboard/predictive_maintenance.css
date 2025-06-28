@@ -1,0 +1,125 @@
+/* Predictive Maintenance & Alerts Page Styles */
+
+.pm-grid-layout {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--space-6);
+}
+
+.full-width-card {
+    grid-column: 1 / -1;
+}
+
+.health-overview-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: var(--space-4);
+    margin-top: var(--space-6);
+}
+
+.health-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: var(--space-4);
+    background-color: var(--current-surface-color);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--current-card-border-color);
+    box-shadow: var(--shadow-sm);
+    text-align: center;
+}
+
+.health-icon {
+    width: 40px;
+    height: 40px;
+    margin-bottom: var(--space-2);
+}
+
+.health-label {
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-medium);
+    color: var(--current-text-secondary-color);
+    margin-bottom: var(--space-1);
+}
+
+.health-status {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+}
+
+.alert-list {
+    margin-top: var(--space-4);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+}
+
+.alert-item {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-3);
+    padding: var(--space-3);
+    border-radius: var(--radius-base);
+    border-left: 4px solid;
+}
+
+.alert-item.critical {
+    background: var(--color-critical-light);
+    border-left-color: var(--current-error-color);
+}
+
+.alert-item.warning {
+    background: var(--color-warning-light);
+    border-left-color: var(--current-warning-color);
+}
+
+.alert-item.info {
+    background: var(--color-info-light);
+    border-left-color: var(--current-info-color);
+}
+
+.alert-item .alert-content {
+    flex-grow: 1;
+}
+
+.alert-item .alert-message {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--current-text-color);
+    margin-bottom: var(--space-1);
+}
+
+.alert-item .alert-timestamp {
+    font-size: var(--font-size-xs);
+    color: var(--current-text-secondary-color);
+}
+
+.forecasting-details, .maintenance-content, .diagnostics-content, .analytics-content, .integration-content {
+    margin-top: var(--space-4);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.info-row .label {
+    font-size: var(--font-size-sm);
+    color: var(--current-text-secondary-color);
+}
+
+.info-row .value {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-semibold);
+}
+
+.form-actions {
+    margin-top: var(--space-4);
+    display: flex;
+    gap: var(--space-2);
+    justify-content: flex-end;
+}

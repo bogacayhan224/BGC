@@ -1,0 +1,57 @@
+/* User Profile & Support Page Styles */
+
+.profile-support-grid-layout {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--space-6);
+}
+
+.profile-content, .notification-content, .help-content, .support-contact-content, .feedback-content, .education-content, .community-content, .privacy-content {
+    margin-top: var(--space-4);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.info-row .label {
+    font-size: var(--font-size-sm);
+    color: var(--current-text-secondary-color);
+}
+
+.info-row .value {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-semibold);
+}
+
+.control-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--current-secondary-color);
+    padding: var(--space-2);
+    border-radius: var(--radius-base);
+}
+
+.control-label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--current-text-color);
+    cursor: pointer;
+}
+
+.form-actions {
+    margin-top: var(--space-4);
+    display: flex;
+    gap: var(--space-2);
+    justify-content: flex-end;
+}

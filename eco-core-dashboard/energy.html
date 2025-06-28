@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Energy Management - ECO-CORE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="energy.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+</head>
+<body class="flex bg-neutral-50 text-gray-800 font-sans">
+  <!-- Main wrapper -->
+  <div class="flex flex-col flex-grow min-h-screen">
+    <!-- Header -->
+    <header class="sticky top-0 bg-white z-30 h-16 flex items-center justify-between px-6 shadow">
+      <!-- Left section -->
+      <div class="flex items-center gap-4">
+        <a href="index.html">
+          <img src="EcoGHouse_Logo.png" alt="Eco-G Logo" class="w-10 h-10 object-contain" />
+        </a>
+        <h1 class="text-lg font-semibold tracking-tight">Energy Management Hub</h1>
+      </div>
+
+      <!-- NEW: Hub Menu (Top Navigation) -->
+      <nav class="hub-menu">
+        <ul>
+          <li><a href="index.html" class="hub-menu-link">Dashboard</a></li>
+          <li><a href="energy.html" class="hub-menu-link active">Energy Management</a></li>
+          <li><a href="water.html" class="hub-menu-link">Water Management</a></li>
+          <li><a href="waste.html" class="hub-menu-link">Waste Management</a></li>
+          <li><a href="predictive_maintenance.html" class="hub-menu-link">Predictive Maintenance</a></li>
+          <li><a href="automation_settings.html" class="hub-menu-link">Automation & Settings</a></li>
+          <li><a href="reports_analytics.html" class="hub-menu-link">Reports & Analytics</a></li>
+          <li><a href="user_profile_support.html" class="hub-menu-link">User Profile & Support</a></li>
+        </ul>
+      </nav>
+
+      <!-- Right section -->
+      <div class="flex items-center gap-4">
+        <a href="index.html" class="bg-gray-100 text-sm text-gray-700 px-3 py-1 rounded hover:bg-gray-200 transition">Back to Dashboard</a>
+        <button class="bg-gray-100 text-gray-800 px-3 py-1 rounded text-sm">Logout</button>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="p-6 w-full max-w-screen-xl mx-auto pt-16">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- 1. Solar/Wind Generation Status -->
+        <div class="card full-width-card">
+            <div class="card__body">
+                <div class="card-header">
+                    <i data-lucide="sun" class="card-icon"></i>
+                    <h3>Generation Status</h3>
+                    <div class="card-controls">
+                        <div class="btn-group">
+                            <button class="btn btn--sm btn--secondary active" id="solarBtn">Solar</button>
+                            <button class="btn btn--sm btn--secondary" id="windBtn">Wind</button>
+                        </div>
+                        <select class="form-control form-control--sm" id="timeRangeSelector">
+                            <option>Today</option>
+                            <option>This Week</option>
+                            <option>This Month</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="chart-container-large">
+                    <canvas id="generationChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. Battery Storage -->
+        <div class="card">
+            <div class="card__body">
+                <div class="card-header">
+                    <i data-lucide="battery-charging" class="card-icon"></i>
+                    <h3>Battery Storage</h3>
+                </div>
+                <div class="battery-storage-content">
+                    <div class="battery-chart-container">
+                        <canvas id="batteryStorageChart"></canvas>
+                        <div class="battery-level-text">84%</div>
+                    </div>
+                    <div class="battery-details">
+                        <div class="battery-health-status">
+                            <span class="health-label">Overall Health</span>
+                            <div class="health-bar">
+                                <div class="health-bar-fill" style="width: 98%;"></div>
+                            </div>
+                            <span class="health-percentage">98%</span>
+                        </div>
+                        <div class="battery-info">
+                            <div class="info-row">
+                                <span class="label">Status:</span>
+                                <span class="value">Charging</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="label">Time to Full:</span>
+                                <span class="value">45 mins</span>
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <button class="btn btn--sm btn--outline">Detailed Report</button>
+                            <button class="btn btn--sm btn--outline">Manual Override</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. Consumption Trends -->
+        <div class="card">
+            <div class="card__body">
+                <div class="card-header">
+                    <i data-lucide="line-chart" class="card-icon"></i>
+                    <h3>Consumption Trends</h3>
+                    <div class="card-controls">
+                        <button class="btn btn--sm btn--secondary" id="forecastBtn">Show Forecast</button>
+                    </div>
+                </div>
+                <div class="chart-container-medium">
+                    <canvas id="consumptionChart"></canvas>
+                </div>
+                <div class="form-actions">
+                    <button class="btn btn--sm btn--outline">Breakdown by Appliance</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. Load Balancing -->
+        <div class="card">
+            <div class="card__body">
+                <div class="card-header">
+                    <i data-lucide="git-merge" class="card-icon"></i>
+                    <h3>Load Balancing</h3>
+                    <div class="card-controls">
+                        <label class="inline-flex items-center cursor-pointer">
+                            <input type="checkbox" class="sr-only peer" id="loadBalancingToggle" checked/>
+                            <div class="w-11 h-6 bg-gray-200 rounded-full peer peer-checked:bg-green-500 relative transition-all">
+                                <div class="absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition-transform peer-checked:translate-x-5"></div>
+                            </div>
+                            <span class="ml-2 text-sm">Auto</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="load-balancing-content">
+                    <p class="text-secondary">Set peak shaving schedule and appliance priority.</p>
+                    <button class="btn btn--secondary btn--full-width">Configure Load Balancing</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 5. Generator Integration -->
+        <div class="card">
+            <div class="card__body">
+                <div class="card-header">
+                    <i data-lucide="server" class="card-icon"></i>
+                    <h3>Backup Generator</h3>
+                </div>
+                <div class="generator-content">
+                    <div class="info-row">
+                        <span class="label">Status:</span>
+                        <span class="status status--info">Off</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="label">Fuel Level:</span>
+                        <span class="value">95%</span>
+                    </div>
+                    <div class="form-actions">
+                        <button class="btn btn--sm btn--secondary">Manual Start</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 6. Appliance Scheduling -->
+        <div class="card">
+             <div class="card__body">
+                <div class="card-header">
+                    <i data-lucide="calendar-clock" class="card-icon"></i>
+                    <h3>Appliance Scheduling</h3>
+                </div>
+                <div class="appliance-list">
+                    <!-- Scheduled appliance item -->
+                    <div class="appliance-item">
+                        <span>Washing Machine</span>
+                        <span class="text-secondary">Runs at 2:00 PM</span>
+                        <button class="btn btn--sm btn--icon"><i data-lucide="play"></i></button>
+                    </div>
+                    <div class="appliance-item">
+                        <span>Dishwasher</span>
+                        <span class="text-secondary">Runs at 11:00 PM</span>
+                        <button class="btn btn--sm btn--icon"><i data-lucide="play"></i></button>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button class="btn btn--secondary btn--full-width">Add/Edit Schedules</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 7. Grid Interaction -->
+        <div class="card">
+            <div class="card__body">
+                <div class="card-header">
+                    <i data-lucide="arrow-left-right" class="card-icon"></i>
+                    <h3>Grid Interaction</h3>
+                    <div class="card-controls">
+                        <label class="inline-flex items-center cursor-pointer">
+                            <input type="checkbox" class="sr-only peer" id="gridToggle" checked/>
+                            <div class="w-11 h-6 bg-gray-200 rounded-full peer peer-checked:bg-green-500 relative transition-all">
+                                <div class="absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition-transform peer-checked:translate-x-5"></div>
+                            </div>
+                            <span class="ml-2 text-sm">Enabled</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="grid-interaction-content">
+                    <div class="info-row">
+                        <span class="label">Status:</span>
+                        <span class="value text-green">Exporting to Grid</span>
+                    </div>
+                     <div class="info-row">
+                        <span class="label">Net Metering:</span>
+                        <span class="value">+ 1.2 kWh</span>
+                    </div>
+                    <div class="form-actions">
+                        <button class="btn btn--sm btn--outline">View Net Metering Dashboard</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+    </main>
+  </div>
+    <script>
+        lucide.createIcons();
+    </script>
+    <script src="energy.js"></script>
+</body>
+</html>

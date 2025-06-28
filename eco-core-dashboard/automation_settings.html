@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Automation & Settings - ECO-CORE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="automation_settings.css">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+</head>
+<body class="flex bg-neutral-50 text-gray-800 font-sans">
+  <!-- Main wrapper -->
+  <div class="flex flex-col flex-grow min-h-screen">
+    <!-- Header -->
+    <header class="sticky top-0 bg-white z-30 h-16 flex items-center justify-between px-6 shadow">
+      <!-- Left section -->
+      <div class="flex items-center gap-4">
+        <a href="index.html">
+          <img src="EcoGHouse_Logo.png" alt="Eco-G Logo" class="w-10 h-10 object-contain" />
+        </a>
+        <h1 class="text-lg font-semibold tracking-tight">Automation & Settings Hub</h1>
+      </div>
+
+      <!-- NEW: Hub Menu (Top Navigation) -->
+      <nav class="hub-menu">
+        <ul>
+          <li><a href="index.html" class="hub-menu-link">Dashboard</a></li>
+          <li><a href="energy.html" class="hub-menu-link">Energy Management</a></li>
+          <li><a href="water.html" class="hub-menu-link">Water Management</a></li>
+          <li><a href="waste.html" class="hub-menu-link">Waste Management</a></li>
+          <li><a href="predictive_maintenance.html" class="hub-menu-link">Predictive Maintenance</a></li>
+          <li><a href="automation_settings.html" class="hub-menu-link active">Automation & Settings</a></li>
+          <li><a href="reports_analytics.html" class="hub-menu-link">Reports & Analytics</a></li>
+          <li><a href="user_profile_support.html" class="hub-menu-link">User Profile & Support</a></li>
+        </ul>
+      </nav>
+
+      <!-- Right section -->
+      <div class="flex items-center gap-4">
+        <a href="index.html" class="bg-gray-100 text-sm text-gray-700 px-3 py-1 rounded hover:bg-gray-200 transition">Back to Dashboard</a>
+        <button class="bg-gray-100 text-gray-800 px-3 py-1 rounded text-sm">Logout</button>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="p-6 w-full max-w-screen-xl mx-auto pt-16">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- 1. Automation Rules Management -->
+        <div class="card full-width-card">
+            <div class="card__body">
+                <div class="card-header">
+                    <i data-lucide="zap" class="card-icon"></i>
+                    <h3>Automation Rules Management</h3>
+                    <div class="card-controls">
+                        <button class="btn btn--sm btn--primary" id="addRuleBtn"><i data-lucide="plus"></i>Add New Rule</button>
+                    </div>
+                </div>
+                <div class="automation-rules-list" id="automationRulesList">
+                    <!-- Existing Automation Rule Example -->
+                    <div class="rule-item">
+                        <div class="rule-summary">
+                            <h4>Nightly Power Save</h4>
+                            <p>WHEN Time is 11:00 PM, IF Battery Level > 40%, THEN Turn Heater Off.</p>
+                        </div>
+                        <div class="rule-actions">
+                            <label class="inline-flex items-center cursor-pointer">
+                              <input type="checkbox" class="sr-only peer" id="ruleToggle1" checked/>
+                              <div class="w-11 h-6 bg-gray-200 rounded-full peer peer-checked:bg-green-500 relative transition-all">
+                                <div class="absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition-transform peer-checked:translate-x-5"></div>
+                              </div>
+                            </label>
+                            <button class="btn btn--sm btn--outline"><i data-lucide="edit"></i></button>
+                            <button class="btn btn--sm btn--outline btn--danger"><i data-lucide="trash-2"></i></button>
+                        </div>
+                    </div>
+                    <!-- More rules will be added here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. System Preferences -->
+        <div class="card">
+            <div class="card__body">
+                <div class="card-header">
+                    <i data-lucide="settings" class="card-icon"></i>
+                    <h3>System Preferences</h3>
+                </div>
+                <div class="preferences-content">
+                    <div class="form-group">
+                        <label for="languageSelect" class="form-label">Language</label>
+                        <select id="languageSelect" class="form-control">
+                            <option>English</option>
+                            <option>Spanish</option>
+                            <option>French</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="unitsSelect" class="form-label">Units</label>
+                        <select id="unitsSelect" class="form-control">
+                            <option>Metric</option>
+                            <option>Imperial</option>
+                        </select>
+                    </div>
+                    <div class="form-actions">
+                        <button class="btn btn--sm btn--secondary">Notification Settings</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. User Roles & Permissions -->
+        <div class="card">
+            <div class="card__body">
+                <div class="card-header">
+                    <i data-lucide="users" class="card-icon"></i>
+                    <h3>User Roles & Permissions</h3>
+                </div>
+                <div class="user-management-content">
+                    <div class="user-item">
+                        <span>John Doe (Homeowner)</span>
+                        <button class="btn btn--sm btn--outline">Edit</button>
+                    </div>
+                    <div class="user-item">
+                        <span>Guest User</span>
+                        <button class="btn btn--sm btn--outline">Edit</button>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button class="btn btn--sm btn--primary">Add User</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. Integration & Device Management -->
+        <div class="card">
+            <div class="card__body">
+                <div class="card-header">
+                    <i data-lucide="plug-zap" class="card-icon"></i>
+                    <h3>Integration & Devices</h3>
+                </div>
+                <div class="device-management-content">
+                    <div class="device-item">
+                        <span>Smart Plug 1 (Active)</span>
+                        <button class="btn btn--sm btn--outline">Manage</button>
+                    </div>
+                    <div class="device-item">
+                        <span>Weather Station (Active)</span>
+                        <button class="btn btn--sm btn--outline">Manage</button>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button class="btn btn--sm btn--primary">Add Device</button>
+                    <button class="btn btn--sm btn--outline">Integration Settings</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 5. System Health & Diagnostics -->
+        <div class="card">
+            <div class="card__body">
+                <div class="card-header">
+                    <i data-lucide="activity" class="card-icon"></i>
+                    <h3>System Health & Diagnostics</h3>
+                </div>
+                <div class="diagnostics-content">
+                    <p class="text-secondary">Run a full system health check.</p>
+                </div>
+                <div class="form-actions">
+                    <button class="btn btn--sm btn--secondary">Run Diagnostics</button>
+                    <button class="btn btn--sm btn--outline">View Reports</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 6. Backup & Restore -->
+        <div class="card">
+            <div class="card__body">
+                <div class="card-header">
+                    <i data-lucide="save" class="card-icon"></i>
+                    <h3>Backup & Restore</h3>
+                </div>
+                <div class="backup-content">
+                    <p class="text-secondary">Last backup: 2024-06-26 10:00 AM</p>
+                </div>
+                <div class="form-actions">
+                    <button class="btn btn--sm btn--secondary">Backup Now</button>
+                    <button class="btn btn--sm btn--outline">Manage Backups</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 7. System Reset & Factory Defaults -->
+        <div class="card">
+            <div class="card__body">
+                <div class="card-header">
+                    <i data-lucide="rotate-ccw" class="card-icon"></i>
+                    <h3>System Reset</h3>
+                </div>
+                <div class="reset-content">
+                    <p class="text-secondary">Restart or reset your system.</p>
+                </div>
+                <div class="form-actions">
+                    <button class="btn btn--sm btn--secondary">Soft Reset</button>
+                    <button class="btn btn--sm btn--danger">Factory Reset</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 8. Help & Support -->
+        <div class="card">
+            <div class="card__body">
+                <div class="card-header">
+                    <i data-lucide="help-circle" class="card-icon"></i>
+                    <h3>Help & Support</h3>
+                </div>
+                <div class="support-content">
+                    <p class="text-secondary">Find answers or contact support.</p>
+                </div>
+                <div class="form-actions">
+                    <button class="btn btn--sm btn--secondary">Help Center</button>
+                    <button class="btn btn--sm btn--outline">Contact Support</button>
+                </div>
+            </div>
+        </div>
+      </div>
+    </main>
+  </div>
+    <script>
+        lucide.createIcons();
+    </script>
+    <script src="automation_settings.js"></script>
+</body>
+</html>
