@@ -4,6 +4,7 @@ const cors = require('cors');
 const http = require('http');
 const { Server } = require('socket.io');
 const db = require('./src/config/database');
+const initDatabase = require('./src/config/init-db');
 
 const app = express();
 const server = http.createServer(app);
@@ -40,16 +41,29 @@ const initializeSocket = require('./src/sockets');
 // Socket.IO connection handling
 initializeSocket(io);
 
-// Start the server
-server.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+// Initialize database and start server
+const startServer = async () => {
+  try {
+    // Initialize database tables
+    await initDatabase();
+    
+    // Start the server
+    server.listen(PORT, () => {
+      console.log(`Server running on port ${PORT}`);
+    });
 
-// Test database connection
-db.query('SELECT NOW()', (err, res) => {
-  if (err) {
-    console.error('Database connection test failed:', err.stack);
-  } else {
-    console.log('Database connected successfully at:', res.rows[0].now);
+    // Test database connection
+    db.query('SELECT NOW()', (err, res) => {
+      if (err) {
+        console.error('Database connection test failed:', err.stack);
+      } else {
+        console.log('Database connected successfully at:', res.rows[0].now);
+      }
+    });
+  } catch (error) {
+    console.error('Failed to start server:', error);
+    process.exit(1);
   }
-});
+};
+
+startServer();

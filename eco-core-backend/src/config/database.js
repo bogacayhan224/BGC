@@ -2,19 +2,31 @@ const { Pool } = require('pg');
 require('dotenv').config({ path: '../.env' });
 
 console.log('Database config - Environment variables:');
+console.log('DATABASE_URL:', process.env.DATABASE_URL ? 'Set' : 'Not set');
 console.log('DB_USER:', process.env.DB_USER ? 'Set' : 'Not set');
 console.log('DB_HOST:', process.env.DB_HOST ? 'Set' : 'Not set');
 console.log('DB_DATABASE:', process.env.DB_DATABASE ? 'Set' : 'Not set');
 console.log('DB_PORT:', process.env.DB_PORT ? 'Set' : 'Not set');
 
-const pool = new Pool({
-  user: process.env.DB_USER,
-  host: process.env.DB_HOST,
-  database: process.env.DB_DATABASE,
-  password: process.env.DB_PASSWORD,
-  port: process.env.DB_PORT || 5432,
-  ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
-});
+let pool;
+
+if (process.env.DATABASE_URL) {
+  // Use DATABASE_URL if available
+  pool = new Pool({
+    connectionString: process.env.DATABASE_URL,
+    ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
+  });
+} else {
+  // Use individual environment variables
+  pool = new Pool({
+    user: process.env.DB_USER,
+    host: process.env.DB_HOST,
+    database: process.env.DB_DATABASE,
+    password: process.env.DB_PASSWORD,
+    port: process.env.DB_PORT || 5432,
+    ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
+  });
+}
 
 pool.on('connect', () => {
   console.log('Connected to the database');
