@@ -5,6 +5,12 @@ import Dashboard from './components/Dashboard';
 import ProtectedRoute from './components/ProtectedRoute';
 import authService from './services/authService';
 import Energy from './components/Energy';
+import Water from './components/Water';
+import Waste from './components/Waste';
+import PredictiveMaintenance from './components/PredictiveMaintenance';
+import AutomationSettings from './components/AutomationSettings';
+import ReportsAnalytics from './components/ReportsAnalytics';
+import UserProfileSupport from './components/UserProfileSupport';
 import './App.css';
 
 function App() {
@@ -33,6 +39,54 @@ function App() {
             element={
               <ProtectedRoute>
                 <Energy />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/water" 
+            element={
+              <ProtectedRoute>
+                <Water />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/waste" 
+            element={
+              <ProtectedRoute>
+                <Waste />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/predictive_maintenance" 
+            element={
+              <ProtectedRoute>
+                <PredictiveMaintenance />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/automation_settings" 
+            element={
+              <ProtectedRoute>
+                <AutomationSettings />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/reports_analytics" 
+            element={
+              <ProtectedRoute>
+                <ReportsAnalytics />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/user_profile_support" 
+            element={
+              <ProtectedRoute>
+                <UserProfileSupport />
               </ProtectedRoute>
             } 
           />
