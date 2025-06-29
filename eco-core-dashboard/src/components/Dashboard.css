@@ -358,4 +358,77 @@
     flex-direction: column;
     gap: 0.5rem;
   }
+}
+
+/* Modern Toggle Switch (QuickControls için) - YENİDEN EKLENDİ */
+.switch {
+  position: relative !important;
+  display: inline-block !important;
+  width: 40px !important;
+  height: 24px !important;
+}
+.switch input {
+  opacity: 0 !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+.slider {
+  position: absolute !important;
+  cursor: pointer !important;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: #ccc !important;
+  border-radius: 24px !important;
+  transition: .4s !important;
+}
+.slider:before {
+  position: absolute !important;
+  content: '' !important;
+  height: 18px !important;
+  width: 18px !important;
+  left: 3px !important;
+  bottom: 3px !important;
+  background-color: white !important;
+  border-radius: 50% !important;
+  transition: .4s !important;
+}
+input:checked + .slider {
+  background-color: #22c55e !important;
+}
+input:checked + .slider:before {
+  transform: translateX(16px) !important;
+}
+
+@keyframes thermoGlow {
+  0% { filter: drop-shadow(0 0 8px #F59E0B88); }
+  100% { filter: drop-shadow(0 0 24px #F59E0B); }
+}
+@keyframes shimmerMove {
+  0% { background-position: 0 0; }
+  100% { background-position: 32px 0; }
+}
+
+.dashboard-alerts-list .dashboard-alert {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  overflow: hidden;
+  transition: opacity 0.4s ease-out, background 0.2s;
+}
+.dashboard-alerts-list .dashboard-alert .acknowledge-btn {
+  display: none;
+  margin-left: 16px;
+  white-space: nowrap;
+}
+.dashboard-alerts-list .dashboard-alert:hover .acknowledge-btn {
+  display: block;
+}
+.dashboard-alerts-list .dashboard-alert.acknowledged {
+  opacity: 0.5;
+  transition: opacity 0.4s ease-out;
+}
+.acknowledged-section {
+  margin-top: 16px;
+  border-top: 1px solid #e5e7eb;
+  padding-top: 8px;
 } 

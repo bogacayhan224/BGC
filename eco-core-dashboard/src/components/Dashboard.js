@@ -15,13 +15,16 @@ import {
 } from 'lucide-react';
 import '../style.css';
 import './Dashboard.css';
+import QuickControls from './QuickControls';
+import alertsService from '../services/alertsService';
 
 const Dashboard = () => {
   const navigate = useNavigate();
-  const [alerts] = useState([
-    { id: 1, level: 'warning', message: 'Water tank level below 80%', time: '2 min ago' },
-    { id: 2, level: 'info', message: 'Solar panel efficiency at 95%', time: '5 min ago' }
+  const [activeAlerts, setActiveAlerts] = useState([
+    { id: 1, level: 'warning', message: 'Water tank level below 80%', time: '2 min ago', acknowledged: false },
+    { id: 2, level: 'info', message: 'Solar panel efficiency at 95%', time: '5 min ago', acknowledged: false }
   ]);
+  const [acknowledgedAlerts, setAcknowledgedAlerts] = useState([]);
   const [controls, setControls] = useState({
     heater: false,
     rainwater: true,
@@ -29,6 +32,10 @@ const Dashboard = () => {
   });
   const [alertsDropdownOpen, setAlertsDropdownOpen] = useState(false);
   const alertsDropdownRef = useRef(null);
+
+  // Water System kartı için gerekli state ve değişkenler
+  const [tankHovered, setTankHovered] = useState(false);
+  const tankLevel = 60;
 
   // Chart refs
   const batteryChartRef = useRef(null);
@@ -42,6 +49,23 @@ const Dashboard = () => {
   const windChart = useRef(null);
   const ecoScoreChart = useRef(null);
 
+  // Waste Management için sıcaklık ve progress state'i
+  const [compostTemp] = useState(38);
+  const [compostProgress, setCompostProgress] = useState(0);
+  const compostPhase = 'Active Composting';
+
+  // Alert Center için hem mock hem API destekli, acknowledge'lı state
+  const [alerts, setAlerts] = useState([]);
+  const [acknowledged, setAcknowledged] = useState([]);
+  const [alertsLoading, setAlertsLoading] = useState(true);
+  const [alertsError, setAlertsError] = useState(null);
+
+  // Mock veri (API yoksa)
+  const mockAlerts = [
+    { id: 1, level: 'warning', message: 'Water tank level below 80%', time: '2 min ago' },
+    { id: 2, level: 'info', message: 'Solar panel efficiency at 95%', time: '5 min ago' }
+  ];
+
   const handleLogout = () => {
     localStorage.removeItem('token');
     navigate('/login');
@@ -53,6 +77,36 @@ const Dashboard = () => {
       [control]: !prev[control]
     }));
   };
+
+  const handleAcknowledge = (alertId) => {
+    setAlerts(prev => {
+      const alert = prev.find(a => a.id === alertId);
+      if (!alert) return prev;
+      setAcknowledged(a => a.some(x => x.id === alertId) ? a : [...a, { ...alert, acknowledged: true }]);
+      return prev.filter(a => a.id !== alertId);
+    });
+  };
+
+  useEffect(() => {
+    setAlertsLoading(true);
+    setAlertsError(null);
+    // API varsa buradan fetch et, yoksa mock kullan
+    (async () => {
+      try {
+        // Eğer alertsService varsa kullan, yoksa mock
+        let data = mockAlerts;
+        if (typeof alertsService?.fetchCriticalAlerts === 'function') {
+          data = await alertsService.fetchCriticalAlerts();
+        }
+        setAlerts(data);
+      } catch (e) {
+        setAlertsError('Failed to load critical alerts');
+        setAlerts(mockAlerts);
+      } finally {
+        setAlertsLoading(false);
+      }
+    })();
+  }, []);
 
   useEffect(() => {
     // Destroy previous chart instances if they exist
@@ -157,6 +211,9 @@ const Dashboard = () => {
       });
     }
 
+    // Progress animasyonu
+    setTimeout(() => setCompostProgress(58), 200);
+
     // Cleanup: destroy charts on unmount
     return () => {
       if (batteryChart.current) batteryChart.current.destroy();
@@ -216,7 +273,7 @@ const Dashboard = () => {
             >
               <span className="icon-badge">
                 <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="alert-icon"><circle cx="12" cy="12" r="10" stroke="#ef4444" strokeWidth="2" fill="#fee2e2" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01" stroke="#ef4444" /></svg>
-                <span className="badge-count">2</span>
+                <span className="badge-count">{alerts.length}</span>
               </span>
               <span className="alerts-label">Critical Alerts</span>
               <svg width="18" height="18" viewBox="0 0 20 20" fill="currentColor" className="dropdown-arrow" style={{marginLeft: 6}}><path fillRule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.085l3.71-3.855a.75.75 0 111.08 1.04l-4.24 4.4a.75.75 0 01-1.08 0l-4.24-4.4a.75.75 0 01.02-1.06z" clipRule="evenodd" /></svg>
@@ -224,7 +281,11 @@ const Dashboard = () => {
             {alertsDropdownOpen && (
               <div className="alerts-dropdown-list">
                 <div className="dropdown-title">Critical Alerts</div>
-                {alerts.length === 0 ? (
+                {alertsLoading ? (
+                  <div className="dropdown-empty">Loading...</div>
+                ) : alertsError ? (
+                  <div className="dropdown-empty">{alertsError}</div>
+                ) : alerts.length === 0 ? (
                   <div className="dropdown-empty">No critical alerts</div>
                 ) : (
                   alerts.map(alert => (
@@ -277,21 +338,23 @@ const Dashboard = () => {
               <Droplets className="dashboard-card-icon" />
               <span className="dashboard-card-title">Water System</span>
             </div>
-            <div className="dashboard-card-section">
-              <div className="dashboard-tank-level">
-                <div className="dashboard-tank-container">
-                  <div className="dashboard-tank-fill" style={{ height: '60%' }}></div>
-                  <span className="dashboard-tank-percentage">60%</span>
+            <div className="water-metrics">
+              <div className="tank-level">
+                <div className="tank-container">
+                  <div className="tank-fill" style={{ height: `${tankLevel}%` }}></div>
+                  <span className="tank-percentage">{tankLevel}%</span>
                 </div>
-                <span className="dashboard-tank-label">Tank Level</span>
+                <span className="tank-label">Tank Level</span>
               </div>
-              <div className="dashboard-info-row">
-                <span className="dashboard-info-label">Filter Status:</span>
-                <span className="dashboard-status dashboard-status--success">OK</span>
-              </div>
-              <div className="dashboard-info-row">
-                <span className="dashboard-info-label">Daily Usage:</span>
-                <span className="dashboard-info-value">145L</span>
+              <div className="water-info">
+                <div className="info-row">
+                  <span className="label">Filter Status:</span>
+                  <span className="status status--success">OK</span>
+                </div>
+                <div className="info-row">
+                  <span className="label">Daily Usage:</span>
+                  <span className="value" style={{ fontWeight: 700, fontSize: '1.5rem' }}>145L</span>
+                </div>
               </div>
             </div>
           </div>
@@ -301,21 +364,44 @@ const Dashboard = () => {
               <span className="dashboard-card-title">Waste Management</span>
             </div>
             <div className="dashboard-card-section">
-              <div className="dashboard-temperature-gauge">
-                <div className="dashboard-thermometer">
-                  <div className="dashboard-temp-fill" style={{ height: '38%' }}></div>
+              <div className="waste-thermometer-block" style={{display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 16, width: 90}}>
+                {/* Temperature label with icon */}
+                <div style={{display: 'flex', alignItems: 'center', fontWeight: 600, fontSize: 18, marginBottom: 8, color: compostTemp > 35 ? '#F59E0B' : '#27ae60', textShadow: compostTemp > 35 ? '0 0 8px #F59E0B88' : 'none'}}>
+                  <span style={{fontSize: 22, marginRight: 6}}>🌡</span> {compostTemp}°C
                 </div>
-                <span className="dashboard-temp-label">38°C Compost Temp</span>
-              </div>
-              <div className="dashboard-info-row">
-                <span className="dashboard-info-label">Status:</span>
-                <span className="dashboard-status dashboard-status--success">Active Composting</span>
-              </div>
-              <div className="dashboard-info-row">
-                <span className="dashboard-info-label">Progress:</span>
-                <div className="dashboard-progress-bar">
-                  <div className="dashboard-progress-fill" style={{ width: '65%' }}></div>
+                {/* Thermometer visual */}
+                <div className="thermometer-outer" style={{
+                  position: 'relative', width: 32, height: 120, background: 'rgba(255,255,255,0.5)', borderRadius: 20, border: '2px solid #27ae60', overflow: 'hidden', display: 'flex', alignItems: 'flex-end', boxShadow: compostTemp > 35 ? '0 0 24px 6px #F59E0B55' : '0 2px 8px rgba(39,174,96,0.08)'}}>
+                  {/* Fill (animated) */}
+                  <div className="thermometer-fill" style={{
+                    position: 'absolute',
+                    left: 0,
+                    bottom: 0,
+                    width: '100%',
+                    height: `${compostProgress}%`,
+                    background: 'linear-gradient(to top, #27ae60 60%, #F59E0B 100%)',
+                    borderRadius: '0 0 20px 20px',
+                    boxShadow: compostTemp > 35 ? '0 0 32px 8px #F59E0B88, 0 0 8px 2px #27ae60' : '0 0 16px 4px #27ae6055',
+                    transition: 'height 1.2s cubic-bezier(.4,2,.6,1)',
+                    filter: compostTemp > 35 ? 'drop-shadow(0 0 12px #F59E0B88)' : 'none',
+                    animation: compostTemp > 35 ? 'thermoGlow 1.2s infinite alternate' : 'none',
+                  }}>
+                    {/* Dalga efekti için SVG overlay */}
+                    <svg width="100%" height="18" style={{position: 'absolute', top: -18, left: 0}}>
+                      <ellipse cx="16" cy="16" rx="16" ry="6" fill="#fff" fillOpacity="0.18">
+                        <animate attributeName="cy" values="16;12;16" dur="1.2s" repeatCount="indefinite" />
+                      </ellipse>
+                    </svg>
+                  </div>
+                  {/* Cam parıltısı */}
+                  <div style={{position: 'absolute', top: 8, left: 4, width: 24, height: 24, borderRadius: '50%', background: 'linear-gradient(120deg, #fff8 60%, #fff2 100%)', opacity: 0.25, filter: 'blur(2px)'}}></div>
+                  {/* Hafif shimmer/heat shimmer */}
+                  {compostTemp > 35 && (
+                    <div style={{position: 'absolute', left: 0, top: 0, width: '100%', height: '100%', pointerEvents: 'none', background: 'repeating-linear-gradient(120deg, #fff2 0 2px, transparent 2px 8px)', opacity: 0.18, animation: 'shimmerMove 2s linear infinite'}}></div>
+                  )}
                 </div>
+                {/* Compost phase/status at the bottom */}
+                <div style={{marginTop: 10, fontWeight: 500, color: '#27ae60', fontSize: 15}}>{compostPhase}</div>
               </div>
             </div>
           </div>
@@ -326,42 +412,63 @@ const Dashboard = () => {
               <span className="dashboard-alert-count">{alerts.length} Active</span>
             </div>
             <div className="dashboard-alerts-list">
-              {alerts.map(alert => (
-                <div key={alert.id} className={`dashboard-alert dashboard-alert--${alert.level}`}>
-                  <span className="dashboard-alert-message">{alert.message}</span>
-                  <span className="dashboard-alert-time">{alert.time}</span>
+              {alertsLoading ? (
+                <div className="dropdown-empty">Loading...</div>
+              ) : alertsError ? (
+                <div className="dropdown-empty">{alertsError}</div>
+              ) : alerts.length === 0 ? (
+                <div className="dropdown-empty">No critical alerts</div>
+              ) : (
+                alerts.map(alert => (
+                  <div
+                    key={alert.id}
+                    className={`dashboard-alert dashboard-alert--${alert.level}`}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      position: 'relative',
+                      transition: 'opacity 0.4s ease-out',
+                      opacity: 1,
+                      padding: '1rem 1.5rem',
+                      minHeight: 64,
+                      overflow: 'hidden',
+                    }}
+                  >
+                    <div style={{ display: 'flex', flexDirection: 'column', flex: 1, minWidth: 0 }}>
+                      <span className="dashboard-alert-message" style={{ whiteSpace: 'normal', wordBreak: 'break-word' }}>{alert.message}</span>
+                      <span className="dashboard-alert-time">{alert.time}</span>
+                    </div>
+                    <button
+                      className="acknowledge-btn"
+                      style={{ marginLeft: 16 }}
+                      onClick={() => handleAcknowledge(alert.id)}
+                    >
+                      Acknowledge
+                    </button>
+                  </div>
+                ))
+              )}
+              {/* Acknowledged section */}
+              {acknowledged.length > 0 && (
+                <div className="acknowledged-section">
+                  <div style={{fontSize: 13, color: '#22c55e', fontWeight: 600, marginBottom: 4}}>Acknowledged</div>
+                  {acknowledged.map(alert => (
+                    <div key={alert.id} className={`dashboard-alert dashboard-alert--${alert.level} acknowledged`}
+                      style={{ display: 'flex', alignItems: 'center', opacity: 0.5, transition: 'opacity 0.4s ease-out', position: 'relative', background: 'rgba(0,0,0,0.03)', minHeight: 64, padding: '1rem 1.5rem' }}>
+                      <div style={{flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column'}}>
+                        <span className="dashboard-alert-message">{alert.message}</span>
+                        <span className="dashboard-alert-time">{alert.time}</span>
+                      </div>
+                      <span style={{marginLeft: 16, color: '#22c55e', fontSize: 20}}>✅</span>
+                    </div>
+                  ))}
                 </div>
-              ))}
+              )}
             </div>
           </div>
-          <div className="dashboard-card dashboard-card-controls">
-            <div className="dashboard-card-header">
-              <Settings className="dashboard-card-icon" />
-              <span className="dashboard-card-title">Quick Controls</span>
-            </div>
-            <div className="dashboard-controls-grid">
-              <div className="dashboard-control-item">
-                <label className="dashboard-switch-label">
-                  <input type="checkbox" className="dashboard-switch-input" checked={controls.heater} onChange={() => handleControlToggle('heater')} />
-                  <span className="dashboard-switch-slider"></span>
-                  <span className="dashboard-switch-text">Heater</span>
-                </label>
-              </div>
-              <div className="dashboard-control-item">
-                <label className="dashboard-switch-label">
-                  <input type="checkbox" className="dashboard-switch-input" checked={controls.rainwater} onChange={() => handleControlToggle('rainwater')} />
-                  <span className="dashboard-switch-slider"></span>
-                  <span className="dashboard-switch-text">Rainwater Roof</span>
-                </label>
-              </div>
-              <div className="dashboard-control-item">
-                <button className="dashboard-btn-flush" onClick={() => handleControlToggle('greywater')}>
-                  <Droplets size={16} />
-                  Force Greywater Flush
-                </button>
-              </div>
-            </div>
-          </div>
+          {/* Quick Controls paneli */}
+          <QuickControls className="dashboard-card dashboard-card-controls" />
           <div className="dashboard-card dashboard-card-eco">
             <div className="dashboard-card-header">
               <Leaf className="dashboard-card-icon" />
