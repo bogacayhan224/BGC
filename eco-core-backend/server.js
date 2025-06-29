@@ -24,10 +24,12 @@ app.use(cors());
 // Import routes
 const dataRoutes = require('./src/api/routes/data.routes');
 const authRoutes = require('./src/api/routes/auth.routes');
+const alertsRoutes = require('./src/api/routes/alerts.routes');
 
 // Use routes
 app.use('/api/dashboard', dataRoutes);
 app.use('/api/auth', authRoutes);
+app.use('/api/alerts', alertsRoutes);
 
 // Basic route
 app.get('/', (req, res) => {
