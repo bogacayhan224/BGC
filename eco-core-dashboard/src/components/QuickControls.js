@@ -19,12 +19,7 @@ const QuickControls = () => {
   };
 
   return (
-    <div className="dashboard-card dashboard-card-controls" style={{padding: '2rem', borderRadius: 20}}>
-      <div className="dashboard-card-header">
-        <span style={{fontSize: '1.25rem', marginRight: 8}}>⚙️</span>
-        <span className="dashboard-card-title">Quick Controls</span>
-      </div>
-      <div className="controls-list" style={{gap: 16}}>
+    <div className="controls-list" style={{gap: 16, padding: '0 24px 24px 24px'}}>
         <ControlToggle
           icon="🔥"
           label="Heater"
@@ -94,7 +89,6 @@ const QuickControls = () => {
           <span style={{fontSize: '1.25rem', marginRight: 8}}>♻️</span>
           {restartInProgress ? 'Restarting...' : 'Restart System'}
         </button>
-      </div>
     </div>
   );
 };
